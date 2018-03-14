@@ -9,13 +9,7 @@ To compile:
 To run: 
 - "sudo ./balance" - NB: always run with root privileges. Failure to do so will crash the kernel. This is a result of wiringpi.
 
-TO DO: 
-- Assign pin numbers for encoders
-- Test interrupt ISR and monitoring
-- develop steering control (possibly just adjust turnsig if posA != posB)
-- possibly use encoders with external arduino nano to offload interrupts and timing
-
-Raspberrt Pi pin numbering reference:
+Raspberry Pi pin numbering reference:
 =======================
 MPU6050_SDA = GPIO 2
 MPU6050_CLK = GPIO 3
@@ -71,7 +65,9 @@ double period = 0.01; //in seconds, 0.01 = 100Hz
 unsigned int count = 0;
 struct timespec gettime_now;
 
-int deadspace = 200;
+// Deadspace for motors - any PWM under this threshold results in no movement (probably due to friction). This constant is 
+// added to the final PID output before it is sent to the motors, which significantly improves linearity of the response.
+int deadspace = 200; 
 
 //functions:
 //===============================
@@ -106,6 +102,7 @@ int read_word_i2c(int addr)
 
 unsigned int nanos(void)
 {
+//used for measuring elapsed time and attempting to enforce loop timing (not always successful due to RPi background processes)
   clock_gettime(CLOCK_REALTIME, &gettime_now);
   return gettime_now.tv_nsec;		//Get ns value
 }
@@ -118,6 +115,7 @@ void KillFunction(int sig)
 
 double gyroCalibration()
 {	
+	//robot must be still during startup to get accurate calibration data
 	for (count = 0; count < 200; count++)
 	{
 		gyroX = read_word_i2c(0x43);
@@ -224,18 +222,15 @@ int main()
 		gyroX_scaled = gyroX/262.0;
 	    
 		theta_acc = atan(acclY_scaled/acclZ_scaled)*180/M_PI;
-		dTheta = -1*gyroX_scaled + gyro_calib;
+		dTheta = gyroX_scaled - gyro_calib; 
 
-		theta = 0.99*(theta - dTheta*period) + 0.01*theta_acc; //dTheta term negative due to axes directions
-
-//		printf("%.8f %.8f %.8f\n", theta, theta_acc, dTheta);
+		theta = 0.99*(theta + dTheta*period) + 0.01*theta_acc;
 
 		dTheta_s = dTheta_s*0.9 + dTheta*0.1;
 
 		//velocity control mode:		
 		//Read wifi for steering/velocity input (not implemented yet):
 //		setpoint_pos = 0;
-
 //		turnSig = 0;
 
 			//read encoders:
@@ -319,8 +314,8 @@ int main()
 	    	
 		  if (time_difference > period*1000000000)  //loop time for nS
 		  {
-//		    if (count == 0)
-//		    printf("CAUTION: looptime too fast\n\n");    
+		    if (count == 0)
+        		    printf("CAUTION: looptime too fast\n\n");    
 		    count = 0;
 		    break;
 		  }
