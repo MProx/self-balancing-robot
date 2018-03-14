@@ -7,8 +7,7 @@ To compile:
 - "g++ balance.cpp -o balance -lwiringPi -lpthread"
 
 To run: 
-- "sudo ./balance" - NB: always run with root privileges
-
+- "sudo ./balance" - NB: always run with root privileges. Failure to do so will crash the kernel. This is a result of wiringpi.
 
 TO DO: 
 - Assign pin numbers for encoders
