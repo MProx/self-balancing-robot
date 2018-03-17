@@ -30,6 +30,7 @@ double error_angle, error_velocity;
 double setpoint_angle = 1.05, setpoint_pos = 0, setpoint_turn = 0;
 double Ei_angle = 0, Ei_pos = 0, Ei_turn;
 double drive_raw, drive, turnSig;
+int deadspace = 200;
 
 //for encoders:
 int EncoderLPinA = 26, EncoderLPinB = 19, EncoderRPinA = 20, EncoderRPinB = 16;
@@ -54,8 +55,6 @@ unsigned long int start_time, time_difference;;
 double period = 0.01; //in seconds, 0.01 = 100Hz
 unsigned int count = 0;
 struct timespec gettime_now;
-
-int deadspace = 200;
 
 //functions:
 //===============================
