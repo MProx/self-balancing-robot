@@ -2,7 +2,21 @@
 
 A work in progress - this repository will contain all code and CAD models (to be added) associated with Debra, the self-balancing robot. 
 
-The robot operates with a Raspberry Pi Zero W, and consists of a Pi, an MPU6050 IMU, a dual-motor driver board and a pair of geared DC electric motors with encoders on the outputs (photos to be added soon).
+The robot consists of a the following components (photos to be added soon):
+
+* Raspberry Pi Zero W: Single-board computer, with wifi built in for uploading code and adjusting tuning paramters.
+
+* Frame: Made from masonite board (CNC routed), and 4x threaded rods. Motor mounting brackets were supplied with the motors.
+
+* Drive: Dual motors (350RPM, 12v) which include encoders (11ppr on the motor output shaft). Note that the motor output has a 34:1 gearing ratio, so rotating the wheel once results in 374 pulses.
+
+* Wheels: 65mm diameter, supplied with the motors
+
+* IMU: MPU6050, 6-degree-of-freedom accelerometer/gyroscope (breakout board)
+
+* Motor driver: Break-out board for an L298 dual motor driver, capable of up to 2A per motor.
+
+* Battery: 2200mAh lipo battery, canabalized from another project. It is quite heavy, and aides in balancing when mounted high up on the frame (this makes sense: imagine balancing a broomstick on your finger, vs balancing a pencil).
 
 The code operates by monitoring the position of the wheels relative to some setpoint, and uses a cascading PID control system - the first level takes in a position setpoint (for now, immutable as the zero position - where the robot was when booted up), and outputs a desired ideal lean angle to achieve it. The second PID loop takes this desired lean angle, and outputs motor drive PWM. 
 
