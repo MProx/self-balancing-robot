@@ -6,6 +6,4 @@ The robot operates with a Raspberry Pi Zero W, and consists of a Pi, an MPU6050 
 
 The code operates by monitoring the position of the wheels relative to some setpoint, and uses a cascading PID control system - the first level takes in a position setpoint (for now, immutable as the zero position - where the robot was when booted up), and outputs a desired ideal lean angle to achieve it. The second PID loop takes this desired lean angle, and outputs motor drive PWM. 
 
-Note that both PID controllers are non-linear: One set of tuning parameters is used close to setpoint, and a second, more aggressive set is used for rejection of strong disturbances that result in bigger errors (i.e. being bumped by the user).
-
 For now, slight manufacturing differences in the motors result in the robot slowly pivoting on the spot. This is because the robot postion is calculated as the average of the two encoder positions. The code doesn't react if one goes up and the other goes down. In the future, I may add a third PID level, to control motor speeds, and thus allow more precise turning control. This will be useful when I eventually add wifi control so that the user can steer and drive around.
