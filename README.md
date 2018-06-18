@@ -1,10 +1,10 @@
 # self-balancing-robot
 
-This repository will contain all code associated with Debra, the self-balancing robot. 
+This repository will contain all code associated with Debra, the self-balancing robot. This robot uses orientation sensors and a series of PID control loops to balance upright on two wheels, and receives wifi control signals from a phone to drive and steer around.
 
-<img src="https://github.com/MProx/self-balancing-robot/blob/master/Robot.jpg" width="367" height="652" />
-
-![Photo](  =612x1088)
+<p align="center">
+  <img src="https://github.com/MProx/self-balancing-robot/blob/master/Robot.jpg" width="367" height="652" />
+</p>
 
 The robot consists of a the following components (photos to be added soon):
 
