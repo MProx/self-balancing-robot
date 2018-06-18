@@ -2,7 +2,9 @@
 
 This repository will contain all code associated with Debra, the self-balancing robot. 
 
-![Photo](https://github.com/MProx/self-balancing-robot/blob/master/Robot.jpg  =612x1088)
+<img src="https://github.com/MProx/self-balancing-robot/blob/master/Robot.jpg" width="612" height="1088" />
+
+![Photo](  =612x1088)
 
 The robot consists of a the following components (photos to be added soon):
 
